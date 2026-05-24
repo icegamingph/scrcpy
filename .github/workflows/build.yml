@@ -44,9 +44,8 @@ jobs:
 
       - name: Build client
         run: |
-          cd app
           meson setup x --buildtype=release --strip -Db_lto=true \
-            -Dprebuilt_server=../scrcpy-server-v4.0
+            -Dprebuilt_server=scrcpy-server-v4.0
           ninja -Cx
 
       - name: Upload artifact
@@ -54,6 +53,6 @@ jobs:
         with:
           name: scrcpy-keymapper-linux
           path: |
-            app/x/app/scrcpy
+            x/app/scrcpy
             scrcpy-server-v4.0
           if-no-files-found: error
