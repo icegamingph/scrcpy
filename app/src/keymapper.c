@@ -1,3 +1,4 @@
+#include "android/input.h"
 #include "keymapper.h"
 #include "control_msg.h"
 #include <string.h>
