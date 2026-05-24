@@ -985,6 +985,7 @@ end:
     if (screen_initialized) {
         sc_screen_join(&s->screen);
         sc_screen_destroy(&s->screen);
+        sc_keymapper_destroy(&s->keymapper);
     }
 
     if (controller_started) {
