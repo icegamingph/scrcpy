@@ -23,13 +23,13 @@ sc_input_manager_init(struct sc_input_manager *im,
     assert(!params->mp || params->mp->ops);
     assert(!params->gp || params->gp->ops);
 
-    im->keymapper = params->keymapper;
     im->controller = params->controller;
     im->fp = params->fp;
     im->screen = params->screen;
     im->kp = params->kp;
     im->mp = params->mp;
     im->gp = params->gp;
+    im->keymapper = params->keymapper;
     im->camera = params->camera;
 
     im->mouse_bindings = params->mouse_bindings;
