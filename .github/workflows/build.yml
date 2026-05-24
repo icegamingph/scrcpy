@@ -48,11 +48,66 @@ jobs:
             -Dprebuilt_server=scrcpy-server-v4.0
           ninja -Cx
 
-      - name: Upload artifact
+      - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: scrcpy-keymapper-linux
           path: |
             x/app/scrcpy
+            scrcpy-server-v4.0
+          if-no-files-found: error
+
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-meson
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-pkgconf
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ffmpeg
+            mingw-w64-ucrt-x86_64-libusb
+            git wget
+
+      - name: Build SDL3 from source
+        run: |
+          git clone --depth 1 --branch release-3.4.2 https://github.com/libsdl-org/SDL.git
+          cd SDL
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSDL_SHARED=ON \
+            -DSDL_STATIC=OFF \
+            -DCMAKE_INSTALL_PREFIX=/ucrt64
+          cmake --build build --parallel $(nproc)
+          cmake --install build
+
+      - name: Download prebuilt server
+        run: |
+          wget -q https://github.com/Genymobile/scrcpy/releases/download/v4.0/scrcpy-server-v4.0
+          # sha256 check on windows (optional)
+
+      - name: Build client
+        run: |
+          meson setup x --buildtype=release --strip -Db_lto=true \
+            -Dprebuilt_server=scrcpy-server-v4.0
+          ninja -Cx
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrcpy-keymapper-windows
+          path: |
+            x/app/scrcpy.exe
             scrcpy-server-v4.0
           if-no-files-found: error
