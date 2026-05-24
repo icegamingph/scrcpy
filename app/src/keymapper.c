@@ -402,6 +402,7 @@ bool sc_keymapper_load_json(struct sc_keymapper *km, const char *json_path) {
 void sc_keymapper_init(struct sc_keymapper *km, struct sc_controller *controller) {
     memset(km, 0, sizeof(*km));
     km->controller = controller;
+    km->enabled = true;
     for (int i = 0; i < MAX_NODES; ++i) {
         km->nodes[i].aim_pointer_id = -1;
         km->nodes[i].active_pointer_id = -1;
