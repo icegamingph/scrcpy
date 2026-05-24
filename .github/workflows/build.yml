@@ -19,7 +19,7 @@ jobs:
             libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev \
             libswresample-dev libusb-1.0-0-dev libv4l-dev \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
-            libxfixes-dev libxi-dev libxss-dev \
+            libxfixes-dev libxi-dev libxss-dev libxtst-dev \
             libwayland-dev libwayland-egl-backend-dev libxkbcommon-dev \
             libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev \
             libegl1-mesa-dev libdbus-1-dev libudev-dev \
