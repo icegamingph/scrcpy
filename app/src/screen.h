@@ -120,6 +120,7 @@ struct sc_screen_params {
     struct sc_key_processor *kp;
     struct sc_mouse_processor *mp;
     struct sc_gamepad_processor *gp;
+    struct sc_keymapper *keymapper;
 
     struct sc_mouse_bindings mouse_bindings;
     bool legacy_paste;
