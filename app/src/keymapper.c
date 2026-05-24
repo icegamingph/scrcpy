@@ -36,7 +36,7 @@ static int allocate_pointer_id(struct sc_keymapper *km) {
             return i;
         }
     }
-    return 0; 
+    return -1; 
 }
 
 static void free_pointer_id(struct sc_keymapper *km, int id) {
@@ -44,6 +44,7 @@ static void free_pointer_id(struct sc_keymapper *km, int id) {
 }
 
 static void inject_touch(struct sc_keymapper *km, int action, int pointer_id, float nx, float ny) {
+    if (pointer_id < 0) return;
     if (km->frame_size.width == 0 || km->frame_size.height == 0) return;
     struct sc_position position = {
         .point = { .x = (int32_t)(nx * km->frame_size.width), 
