@@ -1,7 +1,7 @@
+#include <string.h>
 #include "android/input.h"
 #include "keymapper.h"
 #include "control_msg.h"
-#include <string.h>
 
 // ---------------------------------------------------------
 // PART A: Key String Translation
