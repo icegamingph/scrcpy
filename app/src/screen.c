@@ -305,6 +305,13 @@ sc_screen_render(struct sc_screen *screen, bool update_content_rect) {
         LOGE("Could not render texture: %s", SDL_GetError());
     }
 
+    if (screen->keymapper) {
+        screen->keymapper->window = screen->window;
+        screen->keymapper->frame_size = screen->frame_size;
+        sc_keymapper_tick(screen->keymapper, SDL_GetTicks());
+        sc_keymapper_render_hud(screen->keymapper, screen->renderer);
+    }
+
 end:
     sc_sdl_render_present(renderer);
 }
@@ -476,6 +483,7 @@ bool
 sc_screen_init(struct sc_screen *screen,
                const struct sc_screen_params *params) {
     screen->controller = params->controller;
+    screen->keymapper = params->keymapper;
 
     screen->resize_pending = false;
     screen->window_shown = false;
@@ -653,6 +661,7 @@ sc_screen_init(struct sc_screen *screen,
         .kp = params->kp,
         .mp = params->mp,
         .gp = params->gp,
+        .keymapper = params->keymapper,
         .camera = params->camera,
         .mouse_bindings = params->mouse_bindings,
         .legacy_paste = params->legacy_paste,
