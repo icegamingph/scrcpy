@@ -11,15 +11,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install build tools & FFmpeg deps
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            meson ninja-build pkg-config \
-            libsdl3-dev \
+            meson ninja-build pkg-config cmake \
             libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev \
             libswresample-dev libusb-1.0-0-dev libv4l-dev \
-            wget
+            wget git
+
+      - name: Build SDL3 from source
+        run: |
+          git clone --depth 1 --branch release-3.4.2 https://github.com/libsdl-org/SDL.git
+          cd SDL
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSDL_SHARED=ON \
+            -DSDL_STATIC=OFF
+          cmake --build build --parallel $(nproc)
+          sudo cmake --install build --prefix /usr/local
+          sudo ldconfig
 
       - name: Download prebuilt server
         run: |
