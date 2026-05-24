@@ -61,6 +61,7 @@ struct scrcpy {
     struct sc_delay_buffer v4l2_buffer;
 #endif
     struct sc_controller controller;
+    struct sc_keymapper keymapper;
     struct sc_file_pusher file_pusher;
 #ifdef HAVE_USB
     struct sc_usb usb;
@@ -580,6 +581,7 @@ scrcpy(struct scrcpy_options *options) {
         controller_initialized = true;
 
         controller = &s->controller;
+        sc_keymapper_init(&s->keymapper, controller);
 
 #ifdef HAVE_USB
         bool use_keyboard_aoa =
@@ -742,6 +744,7 @@ aoa_complete:
             .kp = kp,
             .mp = mp,
             .gp = gp,
+            .keymapper = &s->keymapper,
             .mouse_bindings = options->mouse_bindings,
             .legacy_paste = options->legacy_paste,
             .clipboard_autosync = options->clipboard_autosync,
