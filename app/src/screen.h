@@ -29,6 +29,7 @@
 #endif
 
 struct sc_screen {
+    struct sc_keymapper *keymapper;
     struct sc_frame_sink frame_sink; // frame sink trait
 
 #ifndef NDEBUG
