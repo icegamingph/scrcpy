@@ -1,3 +1,4 @@
+#include "keymapper.h"
 #include "input_manager.h"
 
 #include <assert.h>
