@@ -397,6 +397,8 @@ void sc_keymapper_render_hud(struct sc_keymapper *km, SDL_Renderer *renderer) {
 // Note: Ensure your cJSON parser assigns km->nodes[i].small_eyes_scan = SDL_GetScancodeFromKey(...) 
 // and ensures pointers like aim_pointer_id initialize to -1.
 bool sc_keymapper_load_json(struct sc_keymapper *km, const char *json_path) {
+    (void) km;
+    (void) json_path;
     // Drop your specific cJSON mapping loop here, using parse_qt_key()
     return true; 
 }
@@ -410,4 +412,6 @@ void sc_keymapper_init(struct sc_keymapper *km, struct sc_controller *controller
         km->nodes[i].steer_pointer_id = -1;
     }
 }
-void sc_keymapper_destroy(struct sc_keymapper *km) {}
+void sc_keymapper_destroy(struct sc_keymapper *km) {
+    (void) km;
+}
