@@ -17,7 +17,6 @@
 #include "keymapper.h"
 
 struct sc_input_manager {
-    struct sc_keymapper *keymapper;
     struct sc_controller *controller;
     struct sc_file_pusher *fp;
     struct sc_screen *screen;
