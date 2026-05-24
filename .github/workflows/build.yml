@@ -1,0 +1,43 @@
+name: Build scrcpy with Keymapper
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            meson ninja-build pkg-config \
+            libsdl3-dev \
+            libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev \
+            libswresample-dev libusb-1.0-0-dev libv4l-dev \
+            wget
+
+      - name: Download prebuilt server
+        run: |
+          wget -q https://github.com/Genymobile/scrcpy/releases/download/v4.0/scrcpy-server-v4.0
+          echo "84924bd564a1eb6089c872c7521f968058977f91f5ff02514a8c74aff3210f3a  scrcpy-server-v4.0" | sha256sum -c
+
+      - name: Build client
+        run: |
+          cd app
+          meson setup x --buildtype=release --strip -Db_lto=true \
+            -Dprebuilt_server=../scrcpy-server-v4.0
+          ninja -Cx
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrcpy-keymapper-linux
+          path: |
+            app/x/app/scrcpy
+            scrcpy-server-v4.0
+          if-no-files-found: error
