@@ -122,7 +122,7 @@ bool sc_keymapper_process_event(struct sc_keymapper *km, const SDL_Event *event)
             if (km->nodes[i].type == KMT_MOUSE_MOVE) {
                 if (km->nodes[i].aim_pointer_id == -1) {
                     km->nodes[i].aim_pointer_id = allocate_pointer_id(km);
-                    const Uint8 *state = SDL_GetKeyboardState(NULL);
+                    const bool *state = SDL_GetKeyboardState(NULL);
                     if (state[km->nodes[i].small_eyes_scan]) {
                         km->nodes[i].locked_aim_origin = km->nodes[i].small_eyes_pos;
                     } else {
@@ -275,7 +275,7 @@ bool sc_keymapper_process_event(struct sc_keymapper *km, const SDL_Event *event)
                     inject_touch(km, AMOTION_EVENT_ACTION_DOWN, km->nodes[i].steer_pointer_id, km->nodes[i].center_pos.x, km->nodes[i].center_pos.y);
                 }
                 
-                const Uint8 *state = SDL_GetKeyboardState(NULL);
+                const bool *state = SDL_GetKeyboardState(NULL);
                 float vx = km->nodes[i].center_pos.x;
                 float vy = km->nodes[i].center_pos.y;
                 bool moving = false;
