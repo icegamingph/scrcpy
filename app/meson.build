@@ -18,6 +18,7 @@ src = [
     'src/disconnect.c',
     'src/events.c',
     'src/icon.c',
+    'src/keymapper.c',
     'src/file_pusher.c',
     'src/fps_counter.c',
     'src/frame_buffer.c',
