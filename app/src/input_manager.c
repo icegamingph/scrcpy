@@ -1169,6 +1169,12 @@ sc_input_manager_on_device_disconnected(struct sc_input_manager *im) {
 void
 sc_input_manager_handle_event(struct sc_input_manager *im,
                               const SDL_Event *event) {
+
+    if (im->keymapper && im->keymapper->enabled) {
+        if (sc_keymapper_process_event(im->keymapper, event)) {
+            return;  // consumed by keymapper, don't forward to Android
+        }
+    }
     switch (event->type) {
         case SDL_EVENT_TEXT_INPUT:
             sc_input_manager_process_text_input(im, &event->text);
